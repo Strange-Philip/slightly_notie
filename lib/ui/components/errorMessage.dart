@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:iconoir_flutter/cancel.dart';
+import 'package:iconoir_flutter/delete_circle.dart';
 import 'package:slightly_notie/ui/colors.dart';
 
-class LoadingComponent extends StatelessWidget {
+class ErrorComponent extends StatelessWidget {
   final String? message;
-  const LoadingComponent({super.key, this.message});
+  const ErrorComponent({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +18,12 @@ class LoadingComponent extends StatelessWidget {
           color: SlightlyColors.backgroundBlack, borderRadius: BorderRadius.circular(20)),
       child: Row(children: [
         // Logo animation
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: CircularProgressIndicator(
-            color: SlightlyColors.primaryColor,
-            backgroundColor: Color(0xfff5f5f5),
-            strokeWidth: 3,
+        const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: DeleteCircle(
+            color: Colors.red,
+            height: 24,
+            width: 24,
           ),
         ),
         const SizedBox(
@@ -29,13 +31,13 @@ class LoadingComponent extends StatelessWidget {
         ),
         Expanded(
           child: Text(
-            message ?? 'Loading... Please hang tight 😉',
+            message ?? 'Error 😔',
             style: theme.textTheme.bodyLarge!.copyWith(
               color: Colors.white,
               fontSize: 15,
             ),
           ),
-        )
+        ),
       ]),
     );
   }
