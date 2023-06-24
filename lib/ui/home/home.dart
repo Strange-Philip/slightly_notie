@@ -39,9 +39,7 @@ class _HomePageState extends State<HomePage> {
               width: 20,
               color: Colors.white,
             ),
-            onTap: () {
-              showLoading(context);
-            },
+            onTap: () {},
           ),
           SlIconButton(
               onTap: () {
@@ -153,21 +151,6 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
           ),
-        ),
-      ),
-    );
-  }
-
-  void showLoading(BuildContext context) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (context) => ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 200),
-        child: const Padding(
-          padding: EdgeInsets.only(bottom: 25, left: 12, right: 12),
-          child: LoadingComponent(),
         ),
       ),
     );

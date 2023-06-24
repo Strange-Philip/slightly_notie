@@ -133,7 +133,7 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
                 textAlign: TextAlign.center,
                 maxLines: 3,
                 style: theme.textTheme.bodySmall!
-                    .copyWith(fontSize: 18, color: SlightlyColors.primary2),
+                    .copyWith(fontSize: 18, color: SlightlyColors.fullWhite),
               ),
             ),
           ),

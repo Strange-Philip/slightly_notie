@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:iconoir_flutter/delete_circle.dart';
+import 'package:iconoir_flutter/check_circle.dart';
 import 'package:slightly_notie/ui/colors.dart';
 
-class ErrorComponent extends StatelessWidget {
+class SuccessComponent extends StatelessWidget {
   final String? message;
-  const ErrorComponent({super.key, this.message});
+  const SuccessComponent({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,8 @@ class ErrorComponent extends StatelessWidget {
         // Logo animation
         const Padding(
           padding: EdgeInsets.all(10.0),
-          child: DeleteCircle(
-            color: Colors.red,
+          child: CheckCircle(
+            color: Colors.green,
             height: 24,
             width: 24,
           ),
@@ -30,7 +30,7 @@ class ErrorComponent extends StatelessWidget {
         ),
         Expanded(
           child: Text(
-            message ?? 'Error 😔',
+            message ?? 'Success 🥳',
             style: theme.textTheme.bodyLarge!.copyWith(
               color: Colors.white,
               fontSize: 15,

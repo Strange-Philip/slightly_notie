@@ -4,22 +4,21 @@ import 'package:iconoir_flutter/delete_circle.dart';
 import 'package:iconoir_flutter/nav_arrow_left.dart';
 import 'package:iconoir_flutter/palette.dart';
 import 'package:iconoir_flutter/save_floppy_disk.dart';
+import 'package:slightly_notie/models/note.dart';
 import 'package:slightly_notie/ui/colors.dart';
 import 'package:slightly_notie/ui/components/errorMessage.dart';
 import 'package:slightly_notie/ui/components/iconButton.dart';
 import 'package:slightly_notie/ui/components/successMessage.dart';
 
-class AddNotePage extends StatefulWidget {
-  const AddNotePage({super.key});
+class EditNotePage extends StatefulWidget {
+  final Note note;
+  const EditNotePage({super.key, required this.note});
 
   @override
-  State<AddNotePage> createState() => _AddNotePageState();
+  State<EditNotePage> createState() => _EditNotePageState();
 }
 
-class _AddNotePageState extends State<AddNotePage> {
-  final titleTextController = TextEditingController();
-  final noteTextController = TextEditingController();
-
+class _EditNotePageState extends State<EditNotePage> {
   final List<Color> colors = [
     SlightlyColors.accentBlue,
     SlightlyColors.accentGreen,
@@ -29,11 +28,13 @@ class _AddNotePageState extends State<AddNotePage> {
     SlightlyColors.accentPink,
     SlightlyColors.accentRed,
   ];
-  Color selectedColor = SlightlyColors.accentBlue;
+  Color newselectedColor = SlightlyColors.accentBlue;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final titleTextController = TextEditingController(text: widget.note.title);
+    final noteTextController = TextEditingController(text: widget.note.note);
     return Scaffold(
       backgroundColor: SlightlyColors.backgroundBlack,
       appBar: AppBar(
@@ -152,7 +153,7 @@ class _AddNotePageState extends State<AddNotePage> {
 
   void showBtnSheetColor(BuildContext context) async {
     final theme = Theme.of(context);
-
+    Color selectedColor = Color(widget.note.color!);
     var result = await showModalBottomSheet(
       isScrollControlled: true,
       isDismissible: true,
@@ -238,7 +239,7 @@ class _AddNotePageState extends State<AddNotePage> {
       }),
     );
     setState(() {
-      result = selectedColor;
+      result = newselectedColor;
     });
   }
 }

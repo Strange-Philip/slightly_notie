@@ -3,8 +3,9 @@ import 'package:slightly_notie/ui/colors.dart';
 
 class SlIconButton extends StatelessWidget {
   final Widget icon;
+  final bool lowOpacity;
   final Function()? onTap;
-  const SlIconButton({super.key, required this.icon, this.onTap});
+  const SlIconButton({super.key, required this.icon, this.onTap, this.lowOpacity = false});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,10 @@ class SlIconButton extends StatelessWidget {
           width: 40,
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-              color: SlightlyColors.lightBlack, borderRadius: BorderRadius.circular(10)),
+              color: lowOpacity
+                  ? SlightlyColors.lightBlack.withOpacity(0.5)
+                  : SlightlyColors.lightBlack,
+              borderRadius: BorderRadius.circular(10)),
           child: icon,
         ),
       ),

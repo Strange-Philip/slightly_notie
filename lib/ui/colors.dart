@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SlightlyColors {
   static Color backgroundBlack = const Color(0xff252525);
   static Color primaryColor = Color.fromARGB(255, 146, 24, 247);
-  static Color primary2 = const Color(0xffF7EEFF);
+  static Color primary2 = Color.fromARGB(255, 223, 188, 251);
   static Color lightBlack = const Color(0xff3B3B3B);
   static Color fullBlack = const Color(0xff000000);
   static Color fullWhite = const Color(0xffFFFFFF);
