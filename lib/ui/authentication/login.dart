@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -13,7 +12,7 @@ import 'package:slightly_notie/ui/components/iconButton.dart';
 import 'package:slightly_notie/ui/components/loading.dart';
 import 'package:slightly_notie/ui/components/primaryButton.dart';
 import 'package:slightly_notie/ui/components/primaryTextField.dart';
-import 'package:slightly_notie/ui/utils/inputFormaters.dart';
+import 'package:slightly_notie/utils/inputFormaters.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -80,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                   return validateEmail(value!);
+                  
                 },
                 controller: emailController,
                 onFieldSubmitted: (p0) {

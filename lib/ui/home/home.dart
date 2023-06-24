@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:iconoir_flutter/add_circle.dart';
 import 'package:iconoir_flutter/info_empty.dart';
 import 'package:iconoir_flutter/user.dart';
+import 'package:slightly_notie/models/note.dart';
 import 'package:slightly_notie/ui/colors.dart';
 import 'package:slightly_notie/ui/components/iconButton.dart';
 import 'package:slightly_notie/ui/components/loading.dart';
+import 'package:slightly_notie/ui/components/noteCard.dart';
 import 'package:slightly_notie/ui/home/addNote.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           SlIconButton(
-            icon: User(
+            icon: const User(
               height: 20,
               width: 20,
               color: Colors.white,
@@ -73,6 +75,69 @@ class _HomePageState extends State<HomePage> {
             style: theme.textTheme.bodyLarge!
                 .copyWith(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
           )),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 26, 24, 10),
+        child: ListView(
+          children: [
+            NoteCard(
+              note: Note(
+                  title: "New note",
+                  date: "20th Nov",
+                  color: SlightlyColors.accentBlue.value,
+                  note:
+                      "Commodo eiusmod elit qui magna anim enim nostrud deserunt tempor sint ad non. Exercitation cillum quis voluptate excepteur veniam fugiat deserunt esse commodo officia culpa. Ad enim ut adipisicing laborum consectetur mollit voluptate aliquip consequat Lorem ad velit consectetur."),
+            ),
+            NoteCard(
+              note: Note(
+                  title: "New note",
+                  date: "20th Nov",
+                  color: SlightlyColors.accentPink.value,
+                  note:
+                      "Commodo eiusmod elit qui magna anim enim nostrud deserunt tempor sint ad non. Exercitation cillum quis voluptate excepteur veniam fugiat deserunt esse commodo officia culpa. Ad enim ut adipisicing laborum consectetur mollit voluptate aliquip consequat Lorem ad velit consectetur."),
+            ),
+            NoteCard(
+              note: Note(
+                  title: "New note",
+                  date: "20th Nov",
+                  color: SlightlyColors.accentGreen.value,
+                  note:
+                      "Commodo eiusmod elit qui magna anim enim nostrud deserunt tempor sint ad non. Exercitation cillum quis voluptate excepteur veniam fugiat deserunt esse commodo officia culpa. Ad enim ut adipisicing laborum consectetur mollit voluptate aliquip consequat Lorem ad velit consectetur."),
+            ),
+            NoteCard(
+              note: Note(
+                  title: "New note",
+                  date: "20th Nov",
+                  color: SlightlyColors.accentYellow.value,
+                  note:
+                      "Commodo eiusmod elit qui magna anim enim nostrud deserunt tempor sint ad non. Exercitation cillum quis voluptate excepteur veniam fugiat deserunt esse commodo officia culpa. Ad enim ut adipisicing laborum consectetur mollit voluptate aliquip consequat Lorem ad velit consectetur."),
+            ),
+            NoteCard(
+              note: Note(
+                  title: "New note",
+                  date: "20th Nov",
+                  color: SlightlyColors.accentOrange.value,
+                  note:
+                      "Commodo eiusmod elit qui magna anim enim nostrud deserunt tempor sint ad non. Exercitation cillum quis voluptate excepteur veniam fugiat deserunt esse commodo officia culpa. Ad enim ut adipisicing laborum consectetur mollit voluptate aliquip consequat Lorem ad velit consectetur."),
+            ),
+            NoteCard(
+              note: Note(
+                  title: "New note",
+                  date: "20th Nov",
+                  color: SlightlyColors.accentLightBlue.value,
+                  note:
+                      "Commodo eiusmod elit qui magna anim enim nostrud deserunt tempor sint ad non. Exercitation cillum quis voluptate excepteur veniam fugiat deserunt esse commodo officia culpa. Ad enim ut adipisicing laborum consectetur mollit voluptate aliquip consequat Lorem ad velit consectetur."),
+            ),
+            NoteCard(
+              note: Note(
+                  title: "New note",
+                  date: "20th Nov",
+                  color: SlightlyColors.accentRed.value,
+                  note:
+                      "Commodo eiusmod elit qui magna anim enim nostrud deserunt tempor sint ad non. Exercitation cillum quis voluptate excepteur veniam fugiat deserunt esse commodo officia culpa. Ad enim ut adipisicing laborum consectetur mollit voluptate aliquip consequat Lorem ad velit consectetur."),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
