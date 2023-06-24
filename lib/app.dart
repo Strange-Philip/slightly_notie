@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slightly_notie/ui/authentication/onboarding.dart';
 import 'package:slightly_notie/ui/home/home.dart';
 
 class AppCore extends StatelessWidget {
@@ -6,6 +7,6 @@ class AppCore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HomePage();
+    return const OnboardingScreens();
   }
 }

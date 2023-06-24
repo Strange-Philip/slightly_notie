@@ -4,6 +4,7 @@ import 'package:iconoir_flutter/info_empty.dart';
 import 'package:iconoir_flutter/user.dart';
 import 'package:slightly_notie/ui/colors.dart';
 import 'package:slightly_notie/ui/components/iconButton.dart';
+import 'package:slightly_notie/ui/components/loading.dart';
 import 'package:slightly_notie/ui/home/addNote.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,12 +31,16 @@ class _HomePageState extends State<HomePage> {
               .copyWith(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w400),
         ),
         actions: [
-          const SlIconButton(
-              icon: User(
-            height: 20,
-            width: 20,
-            color: Colors.white,
-          )),
+          SlIconButton(
+            icon: User(
+              height: 20,
+              width: 20,
+              color: Colors.white,
+            ),
+            onTap: () {
+              showLoading(context);
+            },
+          ),
           SlIconButton(
               onTap: () {
                 showBtnSheet(context);
@@ -56,7 +61,7 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           },
-          backgroundColor: Colors.black,
+          backgroundColor: SlightlyColors.primaryColor,
           elevation: 0.2,
           icon: const AddCircle(
             height: 20,
@@ -83,6 +88,21 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
           ),
+        ),
+      ),
+    );
+  }
+
+  void showLoading(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) => ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 200),
+        child: const Padding(
+          padding: EdgeInsets.only(bottom: 25, left: 12, right: 12),
+          child: LoadingComponent(),
         ),
       ),
     );

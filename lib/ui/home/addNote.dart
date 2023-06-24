@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:iconoir_flutter/info_empty.dart';
 import 'package:iconoir_flutter/nav_arrow_left.dart';
 import 'package:iconoir_flutter/palette.dart';
 import 'package:iconoir_flutter/save_floppy_disk.dart';
-import 'package:iconoir_flutter/user.dart';
 import 'package:slightly_notie/ui/colors.dart';
 import 'package:slightly_notie/ui/components/iconButton.dart';
 
