@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconoir_flutter/clock.dart';
+import 'package:intl/intl.dart';
 import 'package:slightly_notie/models/note.dart';
 import 'package:slightly_notie/ui/colors.dart';
 import 'package:slightly_notie/ui/home/noteView.dart';
@@ -54,7 +55,7 @@ class NoteCard extends StatelessWidget {
                     width: 4,
                   ),
                   Text(
-                    note.date!,
+                    DateFormat.yMMMEd().format(DateTime.parse(note.date!)),
                     style: theme.textTheme.bodyLarge!.copyWith(
                         color: Colors.grey.shade800, fontSize: 15, fontWeight: FontWeight.w400),
                   ),

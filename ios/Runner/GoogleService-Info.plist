@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>67662263166-6u65g1qu9si1s8a0rop759563kbfhj2u.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.67662263166-6u65g1qu9si1s8a0rop759563kbfhj2u</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC2nR6rLHNUf5zh40R8nIOc_V6TZVD7wOE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>67662263166</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.slightlyNotie</string>
+	<key>PROJECT_ID</key>
+	<string>slightly-notie</string>
+	<key>STORAGE_BUCKET</key>
+	<string>slightly-notie.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:67662263166:ios:c407b323cccb3e579bf92f</string>
+</dict>
+</plist>

@@ -1,14 +1,19 @@
 import 'dart:async';
 
+import 'package:clipboard/clipboard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconoir_flutter/clock.dart';
 import 'package:iconoir_flutter/copy.dart';
 import 'package:iconoir_flutter/edit.dart';
 import 'package:iconoir_flutter/nav_arrow_left.dart';
 import 'package:iconoir_flutter/trash.dart';
+import 'package:intl/intl.dart';
 import 'package:slightly_notie/models/note.dart';
 import 'package:slightly_notie/ui/colors.dart';
+import 'package:slightly_notie/ui/components/errorMessage.dart';
 import 'package:slightly_notie/ui/components/iconButton.dart';
+import 'package:slightly_notie/ui/components/loading.dart';
 import 'package:slightly_notie/ui/components/primaryButton.dart';
 import 'package:slightly_notie/ui/components/secondaryButton.dart';
 import 'package:slightly_notie/ui/components/successMessage.dart';
@@ -46,9 +51,12 @@ class _NoteViewPageState extends State<NoteViewPage> {
         actions: [
           SlIconButton(
               onTap: () {
-                showSuccess(context);
-                Timer(const Duration(seconds: 1), () {
-                  Navigator.pop(context);
+                FlutterClipboard.copy("${widget.note.title}\n${widget.note.note}").then((value) {
+                  print('copied');
+                  showSuccess(context, "Copied to Clipboard 😇");
+                  Timer(const Duration(seconds: 1), () {
+                    Navigator.pop(context);
+                  });
                 });
               },
               lowOpacity: true,
@@ -77,9 +85,6 @@ class _NoteViewPageState extends State<NoteViewPage> {
           SlIconButton(
               onTap: () {
                 showDeleteSheet(context);
-                // Timer(const Duration(seconds: 1), () {
-                //   Navigator.pop(context);
-                // });
               },
               lowOpacity: true,
               icon: const Trash(
@@ -111,7 +116,7 @@ class _NoteViewPageState extends State<NoteViewPage> {
                   width: 4,
                 ),
                 Text(
-                  widget.note.date!,
+                  DateFormat.yMMMEd().format(DateTime.parse(widget.note.date!)),
                   style: theme.textTheme.bodyLarge!.copyWith(
                       color: Colors.grey.shade800, fontSize: 16, fontWeight: FontWeight.w400),
                 ),
@@ -136,7 +141,25 @@ class _NoteViewPageState extends State<NoteViewPage> {
     );
   }
 
-  void showSuccess(BuildContext context) {
+  void showSuccess(BuildContext context, String? message) {
+    showModalBottomSheet(
+      isScrollControlled: false,
+      isDismissible: false,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) => ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 200),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 25, left: 12, right: 12),
+          child: SuccessComponent(
+            message: message ?? "Copied to Clipboard 😇",
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showLoading(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: false,
       isDismissible: false,
@@ -146,17 +169,35 @@ class _NoteViewPageState extends State<NoteViewPage> {
         constraints: const BoxConstraints(maxHeight: 200),
         child: const Padding(
           padding: EdgeInsets.only(bottom: 25, left: 12, right: 12),
-          child: SuccessComponent(
-            message: "Copied to Clipboard 😇",
+          child: LoadingComponent(
+            message: "Deleting note 🙁",
           ),
         ),
       ),
     );
   }
 
-  void showDeleteSheet(BuildContext context) {
-    final theme = Theme.of(context);
+  void showError(BuildContext context, String? message) {
     showModalBottomSheet(
+      isScrollControlled: false,
+      isDismissible: false,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) => ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 200),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 25, left: 12, right: 12),
+          child: ErrorComponent(
+            message: message ?? "Error updating note 😪",
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showDeleteSheet(BuildContext context) async {
+    final theme = Theme.of(context);
+    var result = await showModalBottomSheet(
       isScrollControlled: false,
       isDismissible: false,
       backgroundColor: Colors.transparent,
@@ -176,14 +217,14 @@ class _NoteViewPageState extends State<NoteViewPage> {
                   child: CircleAvatar(
                     backgroundColor: SlightlyColors.primary2,
                     radius: 28,
-                    child: Trash(
+                    child: const Trash(
                       height: 30,
                       width: 30,
                       color: Colors.black,
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Text(
@@ -200,7 +241,7 @@ class _NoteViewPageState extends State<NoteViewPage> {
                   child: PrimaryButtonWidget(
                     title: "Delete",
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
                   ),
                 ),
@@ -219,5 +260,29 @@ class _NoteViewPageState extends State<NoteViewPage> {
         ),
       ),
     );
+    if (result == true) {
+      FocusScope.of(context).unfocus();
+      showLoading(context);
+      FirebaseFirestore.instance
+          .collection('notes')
+          .doc(widget.note.id)
+          .delete()
+          .onError((error, stackTrace) {
+        debugPrint(error.toString());
+        Navigator.pop(context);
+        showError(context, error.toString());
+        Timer(const Duration(seconds: 2), () {
+          Navigator.pop(context);
+        });
+      }).then((value) {
+        print("Done");
+        Navigator.pop(context);
+        showSuccess(context, "Note deleted 🙂");
+        Timer(const Duration(seconds: 2), () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      });
+    }
   }
 }

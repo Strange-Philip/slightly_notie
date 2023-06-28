@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconoir_flutter/delete_circle.dart';
@@ -7,6 +11,7 @@ import 'package:iconoir_flutter/save_floppy_disk.dart';
 import 'package:slightly_notie/ui/colors.dart';
 import 'package:slightly_notie/ui/components/errorMessage.dart';
 import 'package:slightly_notie/ui/components/iconButton.dart';
+import 'package:slightly_notie/ui/components/loading.dart';
 import 'package:slightly_notie/ui/components/successMessage.dart';
 
 class AddNotePage extends StatefulWidget {
@@ -51,6 +56,13 @@ class _AddNotePageState extends State<AddNotePage> {
               color: Colors.white,
             )),
         actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              radius: 10,
+              backgroundColor: Color(selectedColor.value),
+            ),
+          ),
           SlIconButton(
               onTap: () {
                 showBtnSheetColor(context);
@@ -62,7 +74,32 @@ class _AddNotePageState extends State<AddNotePage> {
               )),
           SlIconButton(
               onTap: () {
-                showSuccess(context);
+                FocusScope.of(context).unfocus();
+                showLoading(context);
+                String id = FirebaseFirestore.instance.collection('notes').doc().id;
+                FirebaseFirestore.instance.collection('notes').doc(id).set({
+                  'title': titleTextController.value.text,
+                  'note': noteTextController.value.text,
+                  'userid': FirebaseAuth.instance.currentUser!.uid,
+                  'id': id,
+                  'color': selectedColor.value.toString(),
+                  'date': DateTime.now().toString()
+                }).onError((error, stackTrace) {
+                  debugPrint(error.toString());
+                  Navigator.pop(context);
+                  showError(context, error.toString());
+                  Timer(const Duration(seconds: 2), () {
+                    Navigator.pop(context);
+                  });
+                }).then((value) {
+                  print("Done");
+                  Navigator.pop(context);
+                  showSuccess(context);
+                  Timer(const Duration(seconds: 2), () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  });
+                });
               },
               icon: const SaveFloppyDisk(
                 height: 20,
@@ -132,7 +169,25 @@ class _AddNotePageState extends State<AddNotePage> {
     );
   }
 
-  void showError(BuildContext context) {
+  void showError(BuildContext context, String? message) {
+    showModalBottomSheet(
+      isScrollControlled: false,
+      isDismissible: false,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) => ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 200),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 25, left: 12, right: 12),
+          child: ErrorComponent(
+            message: message ?? "Error saving note 😪",
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showLoading(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: false,
       isDismissible: false,
@@ -142,8 +197,8 @@ class _AddNotePageState extends State<AddNotePage> {
         constraints: const BoxConstraints(maxHeight: 200),
         child: const Padding(
           padding: EdgeInsets.only(bottom: 25, left: 12, right: 12),
-          child: ErrorComponent(
-            message: "Error saving note 😪",
+          child: LoadingComponent(
+            message: "Saving note😎",
           ),
         ),
       ),
@@ -238,7 +293,7 @@ class _AddNotePageState extends State<AddNotePage> {
       }),
     );
     setState(() {
-      result = selectedColor;
+      selectedColor = result;
     });
   }
 }

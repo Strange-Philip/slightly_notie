@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -12,6 +13,8 @@ import 'package:slightly_notie/ui/components/iconButton.dart';
 import 'package:slightly_notie/ui/components/loading.dart';
 import 'package:slightly_notie/ui/components/primaryButton.dart';
 import 'package:slightly_notie/ui/components/primaryTextField.dart';
+import 'package:slightly_notie/ui/components/successMessage.dart';
+import 'package:slightly_notie/ui/home/home.dart';
 import 'package:slightly_notie/utils/inputFormaters.dart';
 
 class LoginPage extends StatefulWidget {
@@ -48,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.white,
             )),
       ),
+      resizeToAvoidBottomInset: false,
       body: FormBuilder(
         key: _formkey,
         child: Padding(
@@ -79,7 +83,6 @@ class _LoginPageState extends State<LoginPage> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                   return validateEmail(value!);
-                  
                 },
                 controller: emailController,
                 onFieldSubmitted: (p0) {
@@ -127,34 +130,45 @@ class _LoginPageState extends State<LoginPage> {
               const Spacer(),
               PrimaryButtonWidget(
                 title: "login",
-                onPressed:
-                    (emailController.value.text.isEmpty || passwordController.value.text.isEmpty)
-                        ? () {
-                            showError(context);
-                            Timer(const Duration(seconds: 2), () {
-                              setState(() {
-                                loading = false;
-                              });
-                              Navigator.pop(context);
-                            });
-                          }
-                        : () {
-                            setState(() {
-                              loading = true;
-                            });
-                            showLoading(context);
+                onPressed: () {
+                  _formkey.currentState!.validate();
+                  if (_formkey.currentState!.validate() == true) {
+                    showLoading(context);
 
-                            Timer(const Duration(seconds: 3), () {
-                              setState(() {
-                                loading = false;
-                              });
-                              Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const SignUpPage()),
-                              );
-                            });
-                          },
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: emailController.value.text,
+                            password: passwordController.value.text)
+                        .catchError((onError) {
+                      debugPrint(onError.toString());
+                      Navigator.pop(context);
+                      showError(context, onError.toString());
+                      Timer(const Duration(seconds: 2), () {
+                        Navigator.pop(context);
+                      });
+                    }).then((value) {
+                      print("Done");
+                      Navigator.pop(context);
+                      showSuccess(context);
+                      Timer(const Duration(seconds: 2), () {
+                        Navigator.pop(context);
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => const HomePage()),
+                          (Route<dynamic> route) => false,
+                        );
+                      });
+                    });
+                  } else {
+                    showError(context, '');
+                    Timer(const Duration(seconds: 2), () {
+                      setState(() {
+                        loading = false;
+                      });
+                      Navigator.pop(context);
+                    });
+                  }
+                },
               ),
               const SizedBox(
                 height: 18,
@@ -174,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: SlightlyColors.primaryColor),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (BuildContext context) => const SignUpPage(),
@@ -206,14 +220,14 @@ class _LoginPageState extends State<LoginPage> {
         child: const Padding(
           padding: EdgeInsets.only(bottom: 25, left: 12, right: 12),
           child: LoadingComponent(
-            message: "Logging in  😎",
+            message: "Logging in 😎",
           ),
         ),
       ),
     );
   }
 
-  void showError(BuildContext context) {
+  void showSuccess(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: false,
       isDismissible: false,
@@ -223,8 +237,26 @@ class _LoginPageState extends State<LoginPage> {
         constraints: const BoxConstraints(maxHeight: 200),
         child: const Padding(
           padding: EdgeInsets.only(bottom: 25, left: 12, right: 12),
+          child: SuccessComponent(
+            message: "Login Complete😎",
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showError(BuildContext context, String? message) {
+    showModalBottomSheet(
+      isScrollControlled: false,
+      isDismissible: false,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) => ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 200),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 25, left: 12, right: 12),
           child: ErrorComponent(
-            message: "Please fill the form correctly 🙁",
+            message: message ?? "Please fill the form correctly 🙁",
           ),
         ),
       ),

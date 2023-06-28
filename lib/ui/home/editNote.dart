@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconoir_flutter/delete_circle.dart';
@@ -8,6 +11,7 @@ import 'package:slightly_notie/models/note.dart';
 import 'package:slightly_notie/ui/colors.dart';
 import 'package:slightly_notie/ui/components/errorMessage.dart';
 import 'package:slightly_notie/ui/components/iconButton.dart';
+import 'package:slightly_notie/ui/components/loading.dart';
 import 'package:slightly_notie/ui/components/successMessage.dart';
 
 class EditNotePage extends StatefulWidget {
@@ -29,6 +33,11 @@ class _EditNotePageState extends State<EditNotePage> {
     SlightlyColors.accentRed,
   ];
   Color newselectedColor = SlightlyColors.accentBlue;
+  @override
+  void initState() {
+    newselectedColor = Color(widget.note.color!);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +61,13 @@ class _EditNotePageState extends State<EditNotePage> {
               color: Colors.white,
             )),
         actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              radius: 10,
+              backgroundColor: Color(newselectedColor.value),
+            ),
+          ),
           SlIconButton(
               onTap: () {
                 showBtnSheetColor(context);
@@ -63,7 +79,29 @@ class _EditNotePageState extends State<EditNotePage> {
               )),
           SlIconButton(
               onTap: () {
-                showSuccess(context);
+                FocusScope.of(context).unfocus();
+                showLoading(context);
+                FirebaseFirestore.instance.collection('notes').doc(widget.note.id).update({
+                  'title': titleTextController.value.text,
+                  'note': noteTextController.value.text,
+                  'color': newselectedColor.value.toString(),
+                }).onError((error, stackTrace) {
+                  debugPrint(error.toString());
+                  Navigator.pop(context);
+                  showError(context, error.toString());
+                  Timer(const Duration(seconds: 2), () {
+                    Navigator.pop(context);
+                  });
+                }).then((value) {
+                  print("Done");
+                  Navigator.pop(context);
+                  showSuccess(context);
+                  Timer(const Duration(seconds: 2), () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  });
+                });
               },
               icon: const SaveFloppyDisk(
                 height: 20,
@@ -126,14 +164,14 @@ class _EditNotePageState extends State<EditNotePage> {
         child: const Padding(
           padding: EdgeInsets.only(bottom: 25, left: 12, right: 12),
           child: SuccessComponent(
-            message: "Note Saved 💪🏾",
+            message: "Note updated 💪🏾",
           ),
         ),
       ),
     );
   }
 
-  void showError(BuildContext context) {
+  void showError(BuildContext context, String? message) {
     showModalBottomSheet(
       isScrollControlled: false,
       isDismissible: false,
@@ -141,10 +179,10 @@ class _EditNotePageState extends State<EditNotePage> {
       context: context,
       builder: (context) => ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 200),
-        child: const Padding(
-          padding: EdgeInsets.only(bottom: 25, left: 12, right: 12),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 25, left: 12, right: 12),
           child: ErrorComponent(
-            message: "Error saving note 😪",
+            message: message ?? "Error updating note 😪",
           ),
         ),
       ),
@@ -153,7 +191,6 @@ class _EditNotePageState extends State<EditNotePage> {
 
   void showBtnSheetColor(BuildContext context) async {
     final theme = Theme.of(context);
-    Color selectedColor = Color(widget.note.color!);
     var result = await showModalBottomSheet(
       isScrollControlled: true,
       isDismissible: true,
@@ -212,9 +249,10 @@ class _EditNotePageState extends State<EditNotePage> {
                           return GestureDetector(
                             onTap: () {
                               setBtnState(() {
-                                selectedColor = Color(colors[index].value);
+                                newselectedColor = Color(colors[index].value);
                               });
-                              Navigator.pop(context, selectedColor);
+                              setState(() {});
+                              Navigator.pop(context, newselectedColor);
                             },
                             child: Container(
                               height: 30,
@@ -223,7 +261,7 @@ class _EditNotePageState extends State<EditNotePage> {
                                   color: Color(colors[index].value),
                                   borderRadius: BorderRadius.circular(40),
                                   border: Border.all(
-                                      color: selectedColor.value == colors[index].value
+                                      color: newselectedColor.value == colors[index].value
                                           ? SlightlyColors.primaryColor
                                           : Colors.transparent,
                                       width: 5)),
@@ -238,8 +276,27 @@ class _EditNotePageState extends State<EditNotePage> {
         );
       }),
     );
+
     setState(() {
-      result = newselectedColor;
+      newselectedColor = result;
     });
+  }
+
+  void showLoading(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: false,
+      isDismissible: false,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) => ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 200),
+        child: const Padding(
+          padding: EdgeInsets.only(bottom: 25, left: 12, right: 12),
+          child: LoadingComponent(
+            message: "Updating note😎",
+          ),
+        ),
+      ),
+    );
   }
 }
