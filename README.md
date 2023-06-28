@@ -10,12 +10,12 @@ A simple note taking app with flutter and firebase .
 | Homepage | | Add notes Page |
 | :---: | --- | :---: |
 | <img src="images/screen_home.png" width="300"> || <img src="images/screen_add.png" width="300"> |
-| Simple homepage layout that lists <br> the latest news articles || Selecting a news article opens <br> it to show more information |
+| Simple homepage layout that lists <br> notes created by user || Adding a new note <br> it asks for title and notes |
 
 | Onboard | | Sign Up |
 | :---: | --- | :---: |
 | <img src="images/screen_onboard.png" width="300"> || <img src="images/screen_auth.png" width="300"> |
-| Simple homepage layout that lists <br> the latest news articles || Selecting a news article opens <br> it to show more information |
+| Simple onboarding page to <br> tell you about the app|| Simple sign Up page for  <br> user authentication |
 
 
 
@@ -36,6 +36,10 @@ The app is powered by firebase , from authentication to data storage.
 #### Illustrations
 
 Most of the illustrations are from a website i discovered (https://www.thedoodlelibrary.com/) .
+
+#### UI/UX
+
+Took some inspiration from pinterest but basically built out the ui all by myself 😌 .
 
 ##### P.S.
 Feel free to clone and mess around. Pull requests are welcome. There's a lot of data from the backend that isn't being used as per the requirements of the challenge but they can make the app's UI richer.
