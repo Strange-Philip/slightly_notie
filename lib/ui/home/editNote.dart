@@ -33,17 +33,21 @@ class _EditNotePageState extends State<EditNotePage> {
     SlightlyColors.accentRed,
   ];
   Color newselectedColor = SlightlyColors.accentBlue;
+  var titleTextController = TextEditingController();
+  var noteTextController = TextEditingController();
+
   @override
   void initState() {
     newselectedColor = Color(widget.note.color!);
+    titleTextController = TextEditingController(text: widget.note.title);
+    noteTextController = TextEditingController(text: widget.note.note);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final titleTextController = TextEditingController(text: widget.note.title);
-    final noteTextController = TextEditingController(text: widget.note.note);
+
     return Scaffold(
       backgroundColor: SlightlyColors.backgroundBlack,
       appBar: AppBar(
