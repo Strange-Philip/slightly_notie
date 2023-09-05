@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:slightly_notie/app.dart';
+import 'package:slightly_notie/ui/home/addNote.dart';
 
 import 'firebase_options.dart';
 
@@ -26,7 +27,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const AppCore(),
+      // home: const AppCore(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => AppCore(),
+        '/addNote': (context) => AddNotePage(),
+      },
     );
   }
 }

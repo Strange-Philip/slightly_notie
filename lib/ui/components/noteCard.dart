@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconoir_flutter/clock.dart';
 import 'package:intl/intl.dart';
 import 'package:slightly_notie/models/note.dart';
-import 'package:slightly_notie/ui/colors.dart';
 import 'package:slightly_notie/ui/home/noteView.dart';
-import 'package:slightly_notie/utils/hextoColor.dart';
 
 class NoteCard extends StatelessWidget {
   final Note note;

@@ -139,6 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                         .signInWithEmailAndPassword(
                             email: emailController.value.text,
                             password: passwordController.value.text)
+                        // ignore: body_might_complete_normally_catch_error
                         .catchError((onError) {
                       debugPrint(onError.toString());
                       Navigator.pop(context);

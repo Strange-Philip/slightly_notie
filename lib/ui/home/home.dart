@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -8,7 +7,6 @@ import 'package:iconoir_flutter/add_circle.dart';
 import 'package:iconoir_flutter/delete_circle.dart';
 import 'package:iconoir_flutter/info_empty.dart';
 import 'package:iconoir_flutter/people_tag.dart';
-import 'package:iconoir_flutter/user_square.dart';
 import 'package:slightly_notie/app.dart';
 import 'package:slightly_notie/models/note.dart';
 import 'package:slightly_notie/ui/colors.dart';
@@ -21,7 +19,6 @@ import 'package:slightly_notie/ui/components/successMessage.dart';
 import 'package:slightly_notie/ui/home/addNote.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 import 'dart:io' show Platform;
-import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -15,6 +15,7 @@ struct Provider: TimelineProvider {
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let entry = SimpleEntry(date: Date())
+        // let addNote = userDefaults?.string(forKey: "addNoteWidget") ?? "No screenshot available"
         completion(entry)
     }
 
@@ -40,10 +41,26 @@ struct SimpleEntry: TimelineEntry {
 
 struct NotesWidgetsEntryView : View {
     var entry: Provider.Entry
+    let data = UserDefaults.init(suiteName:"group.slightlynotie")
+    let iconPath: String?
 
-    var body: some View {
-        Text(entry.date, style: .time)
+    init(entry: Provider.Entry) {
+        self.entry = entry
+        iconPath = data?.string(forKey: "plus")
     }
+    var body: some View {
+        VStack {
+            Image(systemName: "plus")
+                .font(.system(size: 60)).background(Color.black).foregroundColor(Color.white)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black) 
+    }
+    // var body: some View {
+    //      Image(uiImage: UIImage(contentsOfFile: iconPath!)!).resizable()
+    //                 .scaledToFill()
+    //                 .frame(width: 64, height: 64).background(Color.red) 
+    // }
 }
 
 struct NotesWidgets: Widget {
@@ -51,10 +68,10 @@ struct NotesWidgets: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            NotesWidgetsEntryView(entry: entry)
+            NotesWidgetsEntryView(entry: entry).background(Color.blue) 
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Add Note")
+        .description("Add notes easily from the home screen.")
     }
 }
 
