@@ -17,6 +17,11 @@ A simple note taking app with flutter and firebase .
 | <img src="images/screen_onboard.png" width="300"> || <img src="images/screen_auth.png" width="300"> |
 | Simple onboarding page to <br> tell you about the app|| Simple sign Up page for  <br> user authentication |
 
+| Preview | | IOS widget |
+| :---: | --- | :---: |
+| <img src="images/screen_icon.png" width="300"> || <img src="images/screen_widget.png" width="300"> |
+| A little preview on IOS 😊|| IOS widget to add notes from homescreen  <br>  |
+
 
 
 #### Video Demo
