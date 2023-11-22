@@ -28,11 +28,7 @@ class _SecondaryButtonWidgetState extends State<SecondaryButtonWidget> {
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(15),
             border: Border.all(color: SlightlyColors.primaryColor, width: 0.5)),
-        child: Text(
-          widget.title,
-          style: theme.textTheme.titleMedium!
-              .copyWith(color: SlightlyColors.primaryColor, fontSize: 16),
-        ),
+        child: Text(widget.title, style: theme.textTheme.titleMedium!),
       ),
     );
   }

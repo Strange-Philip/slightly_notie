@@ -94,39 +94,39 @@ class _NoteViewPageState extends State<NoteViewPage> {
               )),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 26, 24, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.note.title!,
-              style: theme.textTheme.bodyLarge!
-                  .copyWith(color: Colors.black, fontSize: 30, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Clock(height: 20, width: 20, color: Colors.grey.shade800),
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  DateFormat.yMMMEd().format(DateTime.parse(widget.note.date!)),
-                  style: theme.textTheme.bodyLarge!.copyWith(
-                      color: Colors.grey.shade800, fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Expanded(
-              child: Text(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 26, 24, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.note.title!,
+                style: theme.textTheme.bodyLarge!
+                    .copyWith(color: Colors.black, fontSize: 30, fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Clock(height: 20, width: 20, color: Colors.grey.shade800),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    DateFormat.yMMMEd().format(DateTime.parse(widget.note.date!)),
+                    style: theme.textTheme.bodyLarge!.copyWith(
+                        color: Colors.grey.shade800, fontSize: 16, fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              Text(
                 widget.note.note!,
                 style: theme.textTheme.bodyLarge!.copyWith(
                   color: Colors.black,
@@ -134,8 +134,8 @@ class _NoteViewPageState extends State<NoteViewPage> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

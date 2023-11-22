@@ -114,44 +114,47 @@ class _EditNotePageState extends State<EditNotePage> {
               )),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 26, 24, 10),
-        child: Column(
-          children: [
-            TextField(
-              controller: titleTextController,
-              autofocus: true,
-              // maxLength: 50,
-              maxLengthEnforcement: MaxLengthEnforcement.none,
-              scrollPhysics: const NeverScrollableScrollPhysics(),
-              style: const TextStyle(
-                fontSize: 40,
-                color: Colors.white,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 26, 24, 10),
+          child: Column(
+            children: [
+              TextField(
+                controller: titleTextController,
+                autofocus: true,
+                minLines: 1,
+                maxLines: 2,
+                maxLengthEnforcement: MaxLengthEnforcement.none,
+                scrollPhysics: const NeverScrollableScrollPhysics(),
+                style: const TextStyle(
+                  fontSize: 40,
+                  color: Colors.white,
+                ),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Enter title',
+                    hintStyle: theme.textTheme.bodyLarge!
+                        .copyWith(color: Colors.white.withOpacity(0.8), fontSize: 40)),
               ),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter title',
-                  hintStyle: theme.textTheme.bodyLarge!
-                      .copyWith(color: Colors.white.withOpacity(0.8), fontSize: 40)),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              controller: noteTextController,
-              autofocus: false,
-              scrollPhysics: const NeverScrollableScrollPhysics(),
-              style: theme.textTheme.bodyLarge!.copyWith(color: Colors.white, fontSize: 20),
-              minLines: 1,
-              maxLines: 20,
-              keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Start writing here...',
-                  hintStyle: theme.textTheme.bodyLarge!
-                      .copyWith(color: Colors.white.withOpacity(0.4), fontSize: 20)),
-            ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: noteTextController,
+                autofocus: false,
+                scrollPhysics: const NeverScrollableScrollPhysics(),
+                style: theme.textTheme.bodyLarge!.copyWith(color: Colors.white, fontSize: 20),
+                minLines: 1,
+                maxLines: 50000,
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Start writing here...',
+                    hintStyle: theme.textTheme.bodyLarge!
+                        .copyWith(color: Colors.white.withOpacity(0.4), fontSize: 20)),
+              ),
+            ],
+          ),
         ),
       ),
     );
